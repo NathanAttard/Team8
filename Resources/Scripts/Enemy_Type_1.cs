@@ -10,6 +10,7 @@ public class Enemy_Type_1 : Enemy
         health = 10;
         damage = 5;
         coins = 5;
+        headshotMulti = 3;
         base.Start();
     }
 

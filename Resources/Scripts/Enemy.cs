@@ -7,21 +7,17 @@ public class Enemy : MonoBehaviour
     protected int health;
     protected int damage;
     protected int coins;
+    protected int headshotMulti;
+
+    protected GameManager myGameManager;
 
     protected virtual void Start()
     {
+        myGameManager = FindObjectOfType<GameManager>();
     }
 
     protected virtual void Update()
     {
-    }
-
-    protected virtual void CheckIfDead()
-    {
-        if (health <= 0)
-        {
-            Destroy(this.gameObject);
-        }
     }
 
     protected virtual void OnCollisionEnter(Collision col)
@@ -34,18 +30,27 @@ public class Enemy : MonoBehaviour
 
             if(colliderName == "Enemy_Head")
             {
-                Debug.Log("HEADSHOT");
-                health -= 5;
+                health -= (GameData.BulletDMG * headshotMulti);
+                GameData.HeadshotsNum += 1;
+                Debug.Log("Headshots: " + GameData.HeadshotsNum);
             }
 
             else if (colliderName == "Enemy_Body")
             {
-                Debug.Log("Hit");
-                health -= 2;
+                health -= GameData.BulletDMG;
             }
 
             Destroy(col.gameObject);
             CheckIfDead();
+        }
+    }
+
+    protected virtual void CheckIfDead()
+    {
+        if (health <= 0)
+        {
+            myGameManager.AddCoins(coins);
+            Destroy(this.gameObject);
         }
     }
 }
