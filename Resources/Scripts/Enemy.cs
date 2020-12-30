@@ -1,13 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Enemy : MonoBehaviour
 {
     protected int health;
     protected int damage;
     protected int coins;
+    protected float aggroRange;
 
+    protected NavMeshAgent navAgent;
     protected GameManager myGameManager;
 
     protected virtual void Start()

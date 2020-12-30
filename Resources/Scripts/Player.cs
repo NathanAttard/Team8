@@ -18,6 +18,7 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        GameData.PlayerPosition = this.transform.position;
 
         if (Input.GetKeyDown(KeyCode.Z))
         {

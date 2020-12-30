@@ -67,4 +67,11 @@ public abstract class GameData : MonoBehaviour
         get { return _playerhealth; }
         set { _playerhealth = value; }
     }
+
+    private static Vector3 _playerposition;
+    public static Vector3 PlayerPosition
+    {
+        get { return _playerposition; }
+        set { _playerposition = value; }
+    }
 }
