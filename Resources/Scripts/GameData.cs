@@ -12,11 +12,18 @@ public abstract class GameData : MonoBehaviour
         set { _username = value; }
     }
 
-    private static int _headshotsnum;
-    public static int HeadshotsNum
+    private static int _assaultheadshotsnum;
+    public static int AssaultHeadshotsNum
     {
-        get { return _headshotsnum; }
-        set { _headshotsnum = value; }
+        get { return _assaultheadshotsnum; }
+        set { _assaultheadshotsnum = value; }
+    }
+
+    private static int _handheadshotsnum;
+    public static int HandHeadshotsNum
+    {
+        get { return _handheadshotsnum; }
+        set { _handheadshotsnum = value; }
     }
 
 
@@ -36,10 +43,22 @@ public abstract class GameData : MonoBehaviour
         set { _ammo = value; }
     }
 
-    private static int _bulletdmg = 2;
-    public static int BulletDMG
+    private static int _assaultbulletdmg = 3;
+    public static int AssaultBulletDMG
     {
-        get { return _bulletdmg; }
+        get { return _assaultbulletdmg; }
+    }
+
+    private static int _handbulletdmg = 2;
+    public static int HandBulletDMG
+    {
+        get { return _handbulletdmg; }
+    }
+
+    private static int _headshotmulti = 3;
+    public static int HeadShotMulti
+    {
+        get { return _headshotmulti; }
     }
 
     private static int _playerhealth;
@@ -47,5 +66,12 @@ public abstract class GameData : MonoBehaviour
     {
         get { return _playerhealth; }
         set { _playerhealth = value; }
+    }
+
+    private static Vector3 _playerposition;
+    public static Vector3 PlayerPosition
+    {
+        get { return _playerposition; }
+        set { _playerposition = value; }
     }
 }

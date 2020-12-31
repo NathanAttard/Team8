@@ -13,7 +13,7 @@ namespace FPSControllerLPFP
 #pragma warning disable 649
 		[Header("Arms")]
         [Tooltip("The transform component that holds the gun camera."), SerializeField]
-        private Transform arms;
+        public Transform arms;
 
         [Tooltip("The position of the arms and gun camera relative to the fps controller GameObject."), SerializeField]
         private Vector3 armPosition;

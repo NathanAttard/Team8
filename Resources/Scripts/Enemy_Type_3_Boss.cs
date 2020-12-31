@@ -10,7 +10,6 @@ public class Enemy_Type_3_Boss : Enemy
         health = 250;
         damage = 40;
         coins = 100;
-        headshotMulti = 3;
         base.Start();
     }
 
