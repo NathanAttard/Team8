@@ -10,6 +10,9 @@ public class Enemy_Type_2 : Enemy
     List<Transform> waypoints;
 
     Coroutine patrolCoroutine;
+    Coroutine waitCoroutine;
+
+    float aggroAngle;
 
     // Start is called before the first frame update
     protected override void Start()
@@ -17,11 +20,13 @@ public class Enemy_Type_2 : Enemy
         health = 40;
         damage = 10;
         coins = 25;
-        aggroRange = 7f;
+        aggroRange = 10f;
         base.Start();
 
-        navAgent = GetComponent<NavMeshAgent>();
-        patrolCoroutine = StartCoroutine(PatrolWaypoints(waypoints));        
+        aggroAngle = 70f;
+
+        patrolCoroutine = StartCoroutine(PatrolWaypoints(waypoints));
+        waitCoroutine = StartCoroutine(WaitForPlayer());
     }
 
     // Update is called once per frame
@@ -59,11 +64,58 @@ public class Enemy_Type_2 : Enemy
             }
 
             waypoints.Reverse();
+            yield return new WaitForSeconds(3f);
         }
     }
 
+    IEnumerator WaitForPlayer()
+    {
+        bool playerDetected = false;
+        float facingAngleToPlayer;
 
-    //Facing the player to attack.. research? idk right now.
+        while (true)
+        {
+            //Get at which angle the player is from the enemy's current facing direction
+            facingAngleToPlayer = Vector3.Angle(this.transform.forward, GameData.PlayerPosition - this.transform.position);
 
-    //Create a empty gameobject and make a radius from it that if player goes out of it, they will return to patrol.
+            //get colliders next to this enemy
+            Collider[] hitColliders = Physics.OverlapSphere(this.transform.position, aggroRange);
+
+            //read each collider
+            foreach (Collider collider in hitColliders)
+            {
+                if (collider.gameObject.tag == "playerObject" && facingAngleToPlayer < aggroAngle)
+                {
+                    Debug.Log("Found Player");
+                    playerDetected = true;
+
+                    StopCoroutine(patrolCoroutine);
+                    StartCoroutine(AttackPlayer());
+                    break;
+                }
+            }
+
+            if (playerDetected)
+            {
+                break;
+            }
+
+            yield return new WaitForSeconds(0.2f);
+        }
+
+        yield return null;
+    }
+
+    IEnumerator AttackPlayer()
+    {
+        //Pause his patrol
+        this.navAgent.isStopped = true;
+
+        while (true)
+        {
+            Debug.Log("Starting Attack");
+            //Attack Player
+            yield return new WaitForSeconds(0.2f);
+        }
+    }
 }

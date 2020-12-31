@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 8238749692884392374}
   - component: {fileID: 8256949020001806126}
   m_Layer: 9
-  m_Name: Bullet_Prefab
+  m_Name: HandBullet_Prefab
   m_TagString: playerHandBullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -6,6 +6,8 @@ using UnityEngine.AI;
 public class Enemy_Type_1 : Enemy
 {
     Coroutine waitCoroutine;
+    Coroutine walkCoroutine;
+    float attackRange;
 
     // Start is called before the first frame update
     protected override void Start()
@@ -16,7 +18,8 @@ public class Enemy_Type_1 : Enemy
         aggroRange = 7f;
         base.Start();
 
-        navAgent = GetComponent<NavMeshAgent>();
+        attackRange = 1.8f;
+
         waitCoroutine = StartCoroutine(WaitForPlayer());
     }
 
@@ -43,28 +46,77 @@ public class Enemy_Type_1 : Enemy
                     Debug.Log("Found Player");
                     playerDetected = true;
 
-                    StartCoroutine(AttackPlayer());
+                    walkCoroutine = StartCoroutine(WalkToPlayer());
                     break;
                 }
-                yield return new WaitForSeconds(0.2f);
             }
 
             if (playerDetected)
             {
                 break;
             }
+
+            yield return new WaitForSeconds(0.2f);
         }
 
         yield return null;
     }
 
-    IEnumerator AttackPlayer()
+    IEnumerator WalkToPlayer()
     {
+        StartWalk();
+
         while (true)
         {
             navAgent.SetDestination(GameData.PlayerPosition);
 
+            //get colliders next to this enemy
+            Collider[] hitColliders = Physics.OverlapSphere(this.transform.position, attackRange);
+
+            //read each collider
+            foreach (Collider collider in hitColliders)
+            {
+                if (collider.gameObject.tag == "playerObject")
+                {
+                    this.navAgent.isStopped = true;
+
+                    animator.SetBool("isWalk", false);
+                    animator.SetBool("Attack", true);
+
+                    break;
+                }
+            }
+
             yield return new WaitForSeconds(0.2f);
         }
     }
+
+    protected override void Died()
+    {
+        base.Died();
+
+        this.navAgent.isStopped = true;
+        StopCoroutine(WalkToPlayer());
+
+        animator.SetBool("Attack", false);
+        animator.SetBool("isWalk", false);
+    }
+
+    void StartWalk()
+    {
+        this.navAgent.isStopped = false;
+        animator.SetBool("isWalk", true);
+    }
+
+    void OnHitAttack()
+    {
+        AttackHit(70f, attackRange, 10f);
+    }
+
+    void OnAttackEnd()
+    {
+        animator.SetBool("Attack", false);
+        StartWalk();
+    }
+
 }

@@ -12,23 +12,27 @@ public class Enemy : MonoBehaviour
 
     protected NavMeshAgent navAgent;
     protected GameManager myGameManager;
+    protected Animator animator;
 
     protected virtual void Start()
     {
         myGameManager = FindObjectOfType<GameManager>();
+        navAgent = GetComponent<NavMeshAgent>();
+        animator = GetComponent<Animator>();
     }
 
     protected virtual void Update()
     {
     }
 
-    protected virtual void OnCollisionEnter(Collision col)
+    public virtual void OnCollisionEnterChild(Collision col)
     {
-
         if (col.gameObject.tag == "playerHandBullet" || col.gameObject.tag == "playerAssaultBullet")
         {
             //Get the name of the gameObject that got hit
             string colliderName = col.GetContact(0).thisCollider.name;
+
+            Debug.Log(colliderName);
 
             if(colliderName == "Enemy_Head")
             {
@@ -73,8 +77,41 @@ public class Enemy : MonoBehaviour
     {
         if (health <= 0)
         {
-            myGameManager.AddCoins(coins);
-            Destroy(this.gameObject);
+            Died();
+        }
+    }
+
+    protected virtual void Died()
+    {
+        myGameManager.AddCoins(coins);
+        animator.SetTrigger("Died");
+    }
+
+    protected virtual void AfterDeath()
+    {
+        Destroy(this.gameObject);
+    }
+
+    protected virtual void AttackHit(float attackAngle, float attackRange, float pushForce)
+    {
+        float facingAngleToPlayer = Vector3.Angle(this.transform.forward, GameData.PlayerPosition - this.transform.position);
+        bool isPlayerInRange = false;
+
+        //get colliders next to this enemy
+        Collider[] hitColliders = Physics.OverlapSphere(this.transform.position, attackRange);
+
+        //read each collider
+        foreach (Collider collider in hitColliders)
+        {
+            if (collider.gameObject.tag == "playerObject")
+            {
+                isPlayerInRange = true;
+            }
+        }
+
+        if(facingAngleToPlayer <= attackAngle && isPlayerInRange)
+        {
+            Debug.Log("Player Got Hit");
         }
     }
 }
