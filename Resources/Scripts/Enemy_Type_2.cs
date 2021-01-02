@@ -2,28 +2,40 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using System;
 
 public class Enemy_Type_2 : Enemy
 {
     [Tooltip("The waypoints the enemy will move to.")]
-    [SerializeField]
-    List<Transform> waypoints;
+    [SerializeField] List<Transform> waypoints;
+
+    [Tooltip("The arrow prefab the enemy will shoot when attacking.")]
+    [SerializeField] GameObject arrowPrefab;
+
+    [Tooltip("The speed of the arrow that is shot on attacking")]
+    [SerializeField] float arrowForce;
 
     Coroutine patrolCoroutine;
     Coroutine waitCoroutine;
+    Coroutine lookCoroutine;
+    Coroutine spotCoroutine;
+
+    GameObject arrowSpawnPoint;
 
     float aggroAngle;
 
+    
     // Start is called before the first frame update
     protected override void Start()
     {
         health = 40;
-        damage = 10;
         coins = 25;
         aggroRange = 10f;
         base.Start();
 
         aggroAngle = 70f;
+        arrowSpawnPoint = this.transform.Find("ArrowSpawnPoint").gameObject;
+
 
         patrolCoroutine = StartCoroutine(PatrolWaypoints(waypoints));
         waitCoroutine = StartCoroutine(WaitForPlayer());
@@ -39,6 +51,8 @@ public class Enemy_Type_2 : Enemy
     {
         Vector3 targetWaypoint;
         Vector3 currentPos;
+
+        animator.SetBool("isWalk", true);
 
         while (true)
         {
@@ -70,7 +84,6 @@ public class Enemy_Type_2 : Enemy
 
     IEnumerator WaitForPlayer()
     {
-        bool playerDetected = false;
         float facingAngleToPlayer;
 
         while (true)
@@ -87,35 +100,106 @@ public class Enemy_Type_2 : Enemy
                 if (collider.gameObject.tag == "playerObject" && facingAngleToPlayer < aggroAngle)
                 {
                     Debug.Log("Found Player");
-                    playerDetected = true;
+                    //Pause his patrol
 
+                    animator.SetBool("isWalk", false);
+                    this.navAgent.isStopped = true;
+
+                    spotCoroutine = StartCoroutine(PlayerSpotted());
                     StopCoroutine(patrolCoroutine);
-                    StartCoroutine(AttackPlayer());
+                    StopCoroutine(waitCoroutine);
                     break;
                 }
             }
 
-            if (playerDetected)
-            {
-                break;
-            }
-
             yield return new WaitForSeconds(0.2f);
         }
-
-        yield return null;
     }
 
-    IEnumerator AttackPlayer()
+    IEnumerator PlayerSpotted()
     {
-        //Pause his patrol
-        this.navAgent.isStopped = true;
+        lookCoroutine = StartCoroutine(LookAtPlayer());
+        yield return new WaitForSeconds(1f);
 
         while (true)
         {
-            Debug.Log("Starting Attack");
-            //Attack Player
+            AttackPlayer();
+            yield return new WaitForSeconds(5f);
+        }
+    }
+
+    IEnumerator LookAtPlayer()
+    {
+        while (true)
+        {
+            Vector3 playerPos = new Vector3(GameData.PlayerPosition.x, this.gameObject.transform.position.y, GameData.PlayerPosition.z);
+            this.transform.LookAt(playerPos);
+
             yield return new WaitForSeconds(0.2f);
         }
+    }
+
+    void AttackPlayer()
+    {
+        animator.SetBool("isAttack",true);
+    }
+
+    void OnAttackEnd()
+    {
+        animator.SetBool("isAttack", false);
+    }
+
+    void SpawnArrow()
+    {
+        GameObject arrow = Instantiate(arrowPrefab, arrowSpawnPoint.transform.position, arrowSpawnPoint.transform.rotation);
+        arrow.transform.Rotate(90f, 0, 0);
+
+        arrow.GetComponent<Rigidbody>().velocity = arrowSpawnPoint.transform.forward * arrowForce;
+    }
+
+    protected override void Died()
+    {
+        try
+        {
+            StopCoroutine(waitCoroutine);
+        }
+        catch (NullReferenceException)
+        {
+
+        }
+
+        try
+        {
+            StopCoroutine(patrolCoroutine);
+        }
+        catch (NullReferenceException)
+        {
+
+        }
+
+        try
+        {
+            StopCoroutine(lookCoroutine);
+        }
+        catch (NullReferenceException)
+        {
+
+        }
+
+        try
+        {
+            StopCoroutine(spotCoroutine);
+        }
+        catch (NullReferenceException)
+        {
+
+        }
+
+        this.navAgent.isStopped = true;
+
+        animator.SetBool("isAttack", false);
+        animator.SetBool("isWalk", false);        
+
+        base.Died();
     }
 }

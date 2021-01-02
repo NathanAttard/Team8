@@ -11,6 +11,8 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        GameData.PlayerObject = this.gameObject;
+
         assaultRifle = this.gameObject.transform.GetChild(0).gameObject;
         handGun = this.gameObject.transform.GetChild(1).gameObject;
     }

@@ -32,8 +32,6 @@ public class Enemy : MonoBehaviour
             //Get the name of the gameObject that got hit
             string colliderName = col.GetContact(0).thisCollider.name;
 
-            Debug.Log(colliderName);
-
             if(colliderName == "Enemy_Head")
             {
                 if(col.gameObject.tag == "playerHandBullet")
@@ -57,13 +55,11 @@ public class Enemy : MonoBehaviour
                 if (col.gameObject.tag == "playerHandBullet")
                 {
                     health -= GameData.HandBulletDMG;
-                    Debug.Log("Hit by Hand");
                 }
 
                 else if (col.gameObject.tag == "playerAssaultBullet")
                 {
                     health -= GameData.AssaultBulletDMG;
-                    Debug.Log("Hit by Assault");
                 }
                 
             }
@@ -84,6 +80,10 @@ public class Enemy : MonoBehaviour
     protected virtual void Died()
     {
         myGameManager.AddCoins(coins);
+
+        Destroy(this.transform.Find("Enemy_Head").gameObject);
+        Destroy(this.transform.Find("Enemy_Body").gameObject);
+
         animator.SetTrigger("Died");
     }
 
@@ -92,10 +92,9 @@ public class Enemy : MonoBehaviour
         Destroy(this.gameObject);
     }
 
-    protected virtual void AttackHit(float attackAngle, float attackRange, float pushForce)
+    protected virtual void AttackHit(float attackAngle, float attackRange, int attackDamage)
     {
         float facingAngleToPlayer = Vector3.Angle(this.transform.forward, GameData.PlayerPosition - this.transform.position);
-        bool isPlayerInRange = false;
 
         //get colliders next to this enemy
         Collider[] hitColliders = Physics.OverlapSphere(this.transform.position, attackRange);
@@ -105,13 +104,11 @@ public class Enemy : MonoBehaviour
         {
             if (collider.gameObject.tag == "playerObject")
             {
-                isPlayerInRange = true;
+                if (facingAngleToPlayer <= attackAngle)
+                {
+                    myGameManager.ChangePlayerHealth(-attackDamage);
+                }
             }
-        }
-
-        if(facingAngleToPlayer <= attackAngle && isPlayerInRange)
-        {
-            Debug.Log("Player Got Hit");
-        }
+        }        
     }
 }

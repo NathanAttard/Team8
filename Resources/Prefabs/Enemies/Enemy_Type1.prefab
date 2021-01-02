@@ -149,7 +149,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4205420694171268916}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.3806, y: 0.023, z: 13.98}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.88, y: 0.88, z: 0.88}
   m_Children:
   - {fileID: 4205420695795941223}
@@ -225,7 +225,7 @@ GameObject:
   - component: {fileID: 4205420694238674319}
   m_Layer: 0
   m_Name: Enemy_Body
-  m_TagString: Untagged
+  m_TagString: enemyObject
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1712,7 +1712,7 @@ GameObject:
   - component: {fileID: 4205420695998001601}
   m_Layer: 0
   m_Name: Enemy_Head
-  m_TagString: Untagged
+  m_TagString: enemyObject
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

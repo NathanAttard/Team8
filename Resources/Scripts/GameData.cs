@@ -74,4 +74,11 @@ public abstract class GameData : MonoBehaviour
         get { return _playerposition; }
         set { _playerposition = value; }
     }
+
+    private static GameObject _playerobject;
+    public static GameObject PlayerObject
+    {
+        get { return _playerobject; }
+        set { _playerobject = value; }
+    }
 }

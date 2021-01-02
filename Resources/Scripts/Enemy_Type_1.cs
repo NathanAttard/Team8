@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using System;
 
 public class Enemy_Type_1 : Enemy
 {
     Coroutine waitCoroutine;
     Coroutine walkCoroutine;
     float attackRange;
+    bool isAttacking;
 
     // Start is called before the first frame update
     protected override void Start()
@@ -19,6 +21,7 @@ public class Enemy_Type_1 : Enemy
         base.Start();
 
         attackRange = 1.8f;
+        isAttacking = false;
 
         waitCoroutine = StartCoroutine(WaitForPlayer());
     }
@@ -43,7 +46,7 @@ public class Enemy_Type_1 : Enemy
             {
                 if (collider.gameObject.tag == "playerObject")
                 {
-                    Debug.Log("Found Player");
+                    Debug.Log("Enemy Found Player");
                     playerDetected = true;
 
                     walkCoroutine = StartCoroutine(WalkToPlayer());
@@ -78,28 +81,18 @@ public class Enemy_Type_1 : Enemy
             {
                 if (collider.gameObject.tag == "playerObject")
                 {
-                    this.navAgent.isStopped = true;
+                    StartAttack();
+                    isAttacking = true;
 
-                    animator.SetBool("isWalk", false);
-                    animator.SetBool("Attack", true);
-
-                    break;
+                    while (isAttacking == true)
+                    {
+                        yield return new WaitForSeconds(0.1f);
+                    }
                 }
             }
 
             yield return new WaitForSeconds(0.2f);
         }
-    }
-
-    protected override void Died()
-    {
-        base.Died();
-
-        this.navAgent.isStopped = true;
-        StopCoroutine(WalkToPlayer());
-
-        animator.SetBool("Attack", false);
-        animator.SetBool("isWalk", false);
     }
 
     void StartWalk()
@@ -108,15 +101,55 @@ public class Enemy_Type_1 : Enemy
         animator.SetBool("isWalk", true);
     }
 
+    void StartAttack()
+    {
+        this.navAgent.isStopped = true;
+
+        animator.SetBool("isWalk", false);
+        animator.SetBool("Attack", true);
+    }
+
     void OnHitAttack()
     {
-        AttackHit(70f, attackRange, 10f);
+        AttackHit(70f, attackRange, damage);
     }
 
     void OnAttackEnd()
     {
         animator.SetBool("Attack", false);
+        isAttacking = false;
+
         StartWalk();
     }
+  
 
+    protected override void Died()
+    {
+        try
+        {
+            StopCoroutine(walkCoroutine);
+        }
+        catch (NullReferenceException)
+        {
+
+        }
+
+        try
+        {
+            StopCoroutine(waitCoroutine);
+        }
+        catch (NullReferenceException)
+        {
+
+        }
+
+        this.navAgent.isStopped = true;
+
+        animator.SetBool("Attack", false);
+        animator.SetBool("isWalk", false);
+
+        base.Died();        
+    }
+
+    
 }
