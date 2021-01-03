@@ -31,6 +31,7 @@ public class Enemy_Type_2 : Enemy
         health = 40;
         coins = 25;
         aggroRange = 10f;
+        hitEffect = Resources.Load<GameObject>("Prefabs/Others/HitBones");
         base.Start();
 
         aggroAngle = 70f;
@@ -99,9 +100,6 @@ public class Enemy_Type_2 : Enemy
             {
                 if (collider.gameObject.tag == "playerObject" && facingAngleToPlayer < aggroAngle)
                 {
-                    Debug.Log("Found Player");
-                    //Pause his patrol
-
                     animator.SetBool("isWalk", false);
                     this.navAgent.isStopped = true;
 

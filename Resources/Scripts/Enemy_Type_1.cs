@@ -18,6 +18,7 @@ public class Enemy_Type_1 : Enemy
         damage = 5;
         coins = 5;
         aggroRange = 7f;
+        hitEffect = Resources.Load<GameObject>("Prefabs/Others/HitBones");
         base.Start();
 
         attackRange = 1.8f;
@@ -38,15 +39,16 @@ public class Enemy_Type_1 : Enemy
 
         while (true)
         {
+            float facingAngleToPlayer = Vector3.Angle(this.transform.forward, GameData.PlayerPosition - this.transform.position);
+
             //get colliders next to this enemy
             Collider[] hitColliders = Physics.OverlapSphere(this.transform.position, aggroRange);
 
             //read each collider
             foreach (Collider collider in hitColliders)
             {
-                if (collider.gameObject.tag == "playerObject")
+                if (collider.gameObject.tag == "playerObject" && facingAngleToPlayer <= 70f)
                 {
-                    Debug.Log("Enemy Found Player");
                     playerDetected = true;
 
                     walkCoroutine = StartCoroutine(WalkToPlayer());

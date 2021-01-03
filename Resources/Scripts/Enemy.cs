@@ -14,6 +14,8 @@ public class Enemy : MonoBehaviour
     protected GameManager myGameManager;
     protected Animator animator;
 
+    protected GameObject hitEffect;
+
     protected virtual void Start()
     {
         myGameManager = FindObjectOfType<GameManager>();
@@ -29,6 +31,7 @@ public class Enemy : MonoBehaviour
     {
         if (col.gameObject.tag == "playerHandBullet" || col.gameObject.tag == "playerAssaultBullet")
         {
+            Instantiate(hitEffect, col.gameObject.transform.position, Quaternion.identity);
             //Get the name of the gameObject that got hit
             string colliderName = col.GetContact(0).thisCollider.name;
 
