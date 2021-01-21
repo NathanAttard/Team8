@@ -4,14 +4,30 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEditor;
+using System;
 
 public class GameManager : MonoBehaviour
 {
+    
+
     int startingPlayerHealth = 100;
+
+    Image healthBar;
+    Text coinsText;
 
     // Start is called before the first frame update
     void Start()
     {
+        //Using try and catch to give no errors when text is not found in scene
+        try
+        {
+            healthBar = GameObject.Find("healthSlider").GetComponent<Image>();
+            coinsText = GameObject.Find("coinsText").GetComponent<Text>();
+            UpdateUI();
+        }
+        catch(NullReferenceException)
+        {
+        }
     }
 
     // Update is called once per frame
@@ -48,6 +64,30 @@ public class GameManager : MonoBehaviour
     public void UpdateUI()
     {
         //Update In-Game UI
+        healthBar.fillAmount = GameData.PlayerHealth / 100f;
+
+        //A condition to execute the method to change the colour of the health bar according to the health of the user
+        if (healthBar.fillAmount <= 0.3f)
+        {
+            SetHealthBarColor(Color.red);
+        }
+        else if (healthBar.fillAmount <= 0.5f)
+        {
+            SetHealthBarColor(Color.yellow);
+        }
+        else
+        {
+            SetHealthBarColor(Color.green);
+        }
+
+        coinsText.text = GameData.Coins.ToString();
+
+    }
+
+    //A method to obtain the colour of the health bar 
+    public void SetHealthBarColor(Color healthColor)
+    {
+        healthBar.color = healthColor;
     }
 
     public void ResetGameDataValues()
@@ -61,6 +101,7 @@ public class GameManager : MonoBehaviour
         Debug.Log("Health Before: " + GameData.PlayerHealth);
         GameData.PlayerHealth += amountToChange;
         Debug.Log("Health After: " + GameData.PlayerHealth);
+        UpdateUI();
         CheckRageMode();
     }
 
