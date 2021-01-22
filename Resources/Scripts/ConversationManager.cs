@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class ConversationManager : MonoBehaviour
 {
+    GameManager gamegen;
+
     [Tooltip("The current active conversation")]
     public ConversationScriptableObject CurrentConversation;
 
@@ -112,6 +114,7 @@ public class ConversationManager : MonoBehaviour
                         {
                             GameData.Coins -= 50;
                             GameData.AssaultAmmo += 80;
+                            gamegen.UpdateUI();
                         }
                         else
                         {
@@ -136,6 +139,7 @@ public class ConversationManager : MonoBehaviour
                         {
                             GameData.Coins -= 50;
                             GameData.HandAmmo += 40;
+                            gamegen.UpdateUI();
                         }
                         else
                         {
@@ -160,6 +164,7 @@ public class ConversationManager : MonoBehaviour
                         {
                             GameData.Coins -= 100;
                             GameData.AssaultAmmo += 200;
+                            gamegen.UpdateUI();
                         }
                         else
                         {
@@ -183,6 +188,7 @@ public class ConversationManager : MonoBehaviour
                         {
                             GameData.Coins -= 100;
                             GameData.HandAmmo += 100;
+                            gamegen.UpdateUI();
                         }
                         else
                         {
