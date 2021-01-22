@@ -36,14 +36,14 @@ public abstract class GameData : MonoBehaviour
         set { _coins = value; }
     }
 
-    private static int _assaultammo = 60;
+    private static int _assaultammo = 280;
     public static int AssaultAmmo
     {
         get { return _assaultammo; }
         set { _assaultammo = value; }
     }
 
-    private static int _handammo = 30;
+    private static int _handammo = 80;
     public static int HandAmmo
     {
         get { return _handammo; }
@@ -62,6 +62,13 @@ public abstract class GameData : MonoBehaviour
     {
         get { return _handmag; }
         set { _handmag = value; }
+    }
+
+    private static bool _isassault;
+    public static bool IsAssault
+    {
+        get { return _isassault; }
+        set { _isassault = value; }
     }
 
     private static int _assaultbulletdmg = 3;

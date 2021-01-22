@@ -29,7 +29,7 @@ public class Enemy_Type_2 : Enemy
     protected override void Start()
     {
         health = 40;
-        coins = 25;
+        coins = 40;
         aggroRange = 10f;
         hitEffect = Resources.Load<GameObject>("Prefabs/Others/HitBones");
         base.Start();
@@ -81,7 +81,9 @@ public class Enemy_Type_2 : Enemy
             }
 
             waypoints.Reverse();
+            animator.SetBool("isWalk", false);
             yield return new WaitForSeconds(3f);
+            animator.SetBool("isWalk", true);
         }
     }
 

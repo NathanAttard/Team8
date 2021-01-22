@@ -8,13 +8,22 @@ public class Player : MonoBehaviour
     GameObject assaultRifle;
     GameObject handGun;
 
+    GameManager myGameManager;
+
     // Start is called before the first frame update
     void Start()
     {
+        myGameManager = FindObjectOfType<GameManager>();
+
         GameData.PlayerObject = this.gameObject;
+
+        GameData.IsAssault = true;
 
         assaultRifle = this.gameObject.transform.GetChild(0).gameObject;
         handGun = this.gameObject.transform.GetChild(1).gameObject;
+
+        assaultRifle.SetActive(true);
+        handGun.SetActive(false);
     }
 
     // Update is called once per frame
@@ -27,6 +36,9 @@ public class Player : MonoBehaviour
             this.GetComponent<FpsControllerLPFP>().arms = assaultRifle.transform;
             assaultRifle.SetActive(true);
             handGun.SetActive(false);
+
+            GameData.IsAssault = true;
+            myGameManager.UIAmmoUpdate();
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha2))
@@ -34,6 +46,9 @@ public class Player : MonoBehaviour
             this.GetComponent<FpsControllerLPFP>().arms = handGun.transform;
             assaultRifle.SetActive(false);
             handGun.SetActive(true);
+
+            GameData.IsAssault = false;
+            myGameManager.UIAmmoUpdate();
         }
     }
 }
