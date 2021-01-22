@@ -4955,7 +4955,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 154026814372875273, guid: 5792d4b794599a44bbb877b9bf324600, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 154026814372875273, guid: 5792d4b794599a44bbb877b9bf324600, type: 3}
       propertyPath: m_LocalRotation.z
@@ -4963,7 +4963,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 154026814372875273, guid: 5792d4b794599a44bbb877b9bf324600, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 154026814372875273, guid: 5792d4b794599a44bbb877b9bf324600, type: 3}
       propertyPath: m_RootOrder
@@ -4975,7 +4975,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 154026814372875273, guid: 5792d4b794599a44bbb877b9bf324600, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: 180
       objectReference: {fileID: 0}
     - target: {fileID: 154026814372875273, guid: 5792d4b794599a44bbb877b9bf324600, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
@@ -6673,10 +6673,6 @@ PrefabInstance:
     - target: {fileID: 3154424773756434392, guid: 1a8368729cd2e6c47817f65cbf2e0897, type: 3}
       propertyPath: m_NavMeshLayer
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3773967945004247034, guid: 1a8368729cd2e6c47817f65cbf2e0897, type: 3}
-      propertyPath: m_TagString
-      value: Table
       objectReference: {fileID: 0}
     - target: {fileID: 4083581210676532174, guid: 1a8368729cd2e6c47817f65cbf2e0897, type: 3}
       propertyPath: m_Enabled
@@ -24636,7 +24632,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 3, y: 2, z: 2}
+  m_Size: {x: 3, y: 2, z: 3}
   m_Center: {x: -0.0019526486, y: 0.37796232, z: -0.003605933}
 --- !u!1 &1960540716
 GameObject:
@@ -25164,14 +25160,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3270714836548280250, guid: 0c3a5c0ee91df4646bac89fafdbeda01, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: -0.00012207031
-      objectReference: {fileID: 0}
-    - target: {fileID: 5673550395554883855, guid: 0c3a5c0ee91df4646bac89fafdbeda01, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: -0.00012207031
-      objectReference: {fileID: 0}
     - target: {fileID: 7982878277088706208, guid: 0c3a5c0ee91df4646bac89fafdbeda01, type: 3}
       propertyPath: m_Name
       value: Canvas
