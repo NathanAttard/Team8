@@ -24606,6 +24606,14 @@ PrefabInstance:
       propertyPath: m_NavMeshLayer
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 9096251735256984392, guid: 1a8368729cd2e6c47817f65cbf2e0897, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -19.65
+      objectReference: {fileID: 0}
+    - target: {fileID: 9096251735256984392, guid: 1a8368729cd2e6c47817f65cbf2e0897, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -200.05
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1a8368729cd2e6c47817f65cbf2e0897, type: 3}
 --- !u!1 &1949298717 stripped
@@ -25155,6 +25163,10 @@ PrefabInstance:
     - target: {fileID: 7982878277088706208, guid: 0c3a5c0ee91df4646bac89fafdbeda01, type: 3}
       propertyPath: m_Name
       value: Canvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 7982878277088706208, guid: 0c3a5c0ee91df4646bac89fafdbeda01, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7982878277088706212, guid: 0c3a5c0ee91df4646bac89fafdbeda01, type: 3}
       propertyPath: m_LocalPosition.x
