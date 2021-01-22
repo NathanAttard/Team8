@@ -8,12 +8,16 @@ using System;
 
 public class GameManager : MonoBehaviour
 {
-    
 
+    GameManager myGameManager;
     int startingPlayerHealth = 100;
 
     Image healthBar;
     Text coinsText;
+    Text ammoText;
+
+    Image assaultImg;
+    Image handImg;
 
     // Start is called before the first frame update
     void Start()
@@ -23,6 +27,9 @@ public class GameManager : MonoBehaviour
         {
             healthBar = GameObject.Find("healthSlider").GetComponent<Image>();
             coinsText = GameObject.Find("coinsText").GetComponent<Text>();
+            ammoText = GameObject.Find("rifleText").GetComponent<Text>();
+            assaultImg = GameObject.Find("rifleImg").GetComponent<Image>();
+            handImg = GameObject.Find("pistolImg").GetComponent<Image>();
             UpdateUI();
         }
         catch(NullReferenceException)
@@ -82,6 +89,7 @@ public class GameManager : MonoBehaviour
 
         coinsText.text = GameData.Coins.ToString();
 
+        UIAmmoUpdate();
     }
 
     //A method to obtain the colour of the health bar 
@@ -132,5 +140,21 @@ public class GameManager : MonoBehaviour
         }
 
         UpdateUI();
+    }
+
+    public void UIAmmoUpdate()
+    {
+        if (GameData.IsAssault)
+        {
+            assaultImg.enabled = true;
+            handImg.enabled = false;
+            ammoText.text = GameData.AssaultMag + " / " + GameData.AssaultAmmo;
+        }
+        else if (!GameData.IsAssault)
+        {
+            assaultImg.enabled = false;
+            handImg.enabled = true;
+            ammoText.text = GameData.HandMag + " / " + GameData.HandAmmo;
+        }
     }
 }

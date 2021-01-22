@@ -168,10 +168,15 @@ public class AutomaticGunScriptLPFP : MonoBehaviour {
 		muzzleflashLight.enabled = false;
 	}
 
+    GameManager myGameManager;
+
 	private void Start () {
-		
-		//Save the weapon name
-		storedWeaponName = weaponName;
+
+        myGameManager = FindObjectOfType<GameManager>();
+        GameData.AssaultMag = currentAmmo;
+
+        //Save the weapon name
+        storedWeaponName = weaponName;
 		//Get weapon name from string to text
 		currentWeaponText.text = weaponName;
 		//Set total ammo text from total ammo int
@@ -343,6 +348,7 @@ public class AutomaticGunScriptLPFP : MonoBehaviour {
 
                 GameData.AssaultAmmo -= 1;
                 GameData.AssaultMag = currentAmmo;
+                myGameManager.UIAmmoUpdate();
 
                 shootAudioSource.clip = SoundClips.shootSound;
 				shootAudioSource.Play ();
@@ -575,8 +581,17 @@ public class AutomaticGunScriptLPFP : MonoBehaviour {
 			}
 		}
 		//Restore ammo when reloading
-		currentAmmo = ammo;
+        if(GameData.AssaultAmmo > 30)
+        {
+            currentAmmo = ammo;
+        }
+        else
+        {
+            currentAmmo = GameData.AssaultAmmo;
+        }
+
         GameData.AssaultMag = currentAmmo;
+        myGameManager.UIAmmoUpdate();
         outOfAmmo = false;
 	}
 

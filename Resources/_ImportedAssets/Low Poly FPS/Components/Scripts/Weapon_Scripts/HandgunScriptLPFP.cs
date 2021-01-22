@@ -166,9 +166,16 @@ public class HandgunScriptLPFP : MonoBehaviour {
 		muzzleflashLight.enabled = false;
 	}
 
-	private void Start () {
-		//Save the weapon name
-		storedWeaponName = weaponName;
+    GameManager myGameManager;
+
+    private void Start () {
+
+        myGameManager = FindObjectOfType<GameManager>();
+        GameData.HandMag = currentAmmo;
+        Debug.Log(GameData.HandMag);
+
+        //Save the weapon name
+        storedWeaponName = weaponName;
 		//Get weapon name from string to text
 		currentWeaponText.text = weaponName;
 		//Set total ammo text from total ammo int
@@ -338,6 +345,7 @@ public class HandgunScriptLPFP : MonoBehaviour {
 
             GameData.HandAmmo -= 1;
             GameData.HandMag = currentAmmo;
+            myGameManager.UIAmmoUpdate();
 
             shootAudioSource.clip = SoundClips.shootSound;
 			shootAudioSource.Play ();
@@ -570,9 +578,17 @@ public class HandgunScriptLPFP : MonoBehaviour {
 				<SkinnedMeshRenderer> ().enabled = true;
 			}
 		}
-		//Restore ammo when reloading
-		currentAmmo = ammo;
+        //Restore ammo when reloading
+        if (GameData.HandAmmo > 9)
+        {
+            currentAmmo = ammo;
+        }
+        else
+        {
+            currentAmmo = GameData.HandAmmo;
+        }
         GameData.HandMag = currentAmmo;
+        myGameManager.UIAmmoUpdate();
         outOfAmmo = false;
 	}
 

@@ -18,7 +18,7 @@ public class Enemy_Type_1 : Enemy
     {
         health = 10;
         damage = 5;
-        coins = 5;
+        coins = 10;
         aggroRange = 7f;
         hitEffect = Resources.Load<GameObject>("Prefabs/Others/HitBones");
         base.Start();
