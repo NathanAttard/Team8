@@ -113,4 +113,24 @@ public class GameManager : MonoBehaviour
             //Enable Rage Mode
         }
     }
+
+    public void AddAmmoCheat(int ammoToAdd)
+    {
+        GameData.AssaultAmmo += ammoToAdd;
+        GameData.HandAmmo += ammoToAdd;
+
+        UpdateUI();
+    }
+
+    public void KillEnemiesCheat()
+    {
+        GameObject[] EnemyList = GameObject.FindGameObjectsWithTag("enemyFullGameObject");
+
+        foreach(GameObject currentEnemy in EnemyList)
+        {
+            currentEnemy.GetComponent<Enemy>().KillCheat();
+        }
+
+        UpdateUI();
+    }
 }

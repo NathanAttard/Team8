@@ -22,14 +22,14 @@ public class Player : MonoBehaviour
     {
         GameData.PlayerPosition = this.transform.position;
 
-        if (Input.GetKeyDown(KeyCode.Z))
+        if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             this.GetComponent<FpsControllerLPFP>().arms = assaultRifle.transform;
             assaultRifle.SetActive(true);
             handGun.SetActive(false);
         }
 
-        if (Input.GetKeyDown(KeyCode.X))
+        if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             this.GetComponent<FpsControllerLPFP>().arms = handGun.transform;
             assaultRifle.SetActive(false);

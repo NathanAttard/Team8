@@ -16,6 +16,8 @@ public class Enemy : MonoBehaviour
 
     protected GameObject hitEffect;
 
+    protected bool isAggroed;
+
     protected virtual void Start()
     {
         myGameManager = FindObjectOfType<GameManager>();
@@ -31,6 +33,8 @@ public class Enemy : MonoBehaviour
     {
         if (col.gameObject.tag == "playerHandBullet" || col.gameObject.tag == "playerAssaultBullet")
         {
+            isAggroed = true;
+
             Instantiate(hitEffect, col.gameObject.transform.position, Quaternion.identity);
             //Get the name of the gameObject that got hit
             string colliderName = col.GetContact(0).thisCollider.name;
@@ -84,8 +88,8 @@ public class Enemy : MonoBehaviour
     {
         myGameManager.AddCoins(coins);
 
-        Destroy(this.transform.Find("Enemy_Head").gameObject);
-        Destroy(this.transform.Find("Enemy_Body").gameObject);
+        this.transform.Find("Enemy_Head").gameObject.SetActive(false);
+        this.transform.Find("Enemy_Body").gameObject.SetActive(false);
 
         animator.SetTrigger("Died");
     }
@@ -113,5 +117,11 @@ public class Enemy : MonoBehaviour
                 }
             }
         }        
+    }
+
+    public void KillCheat()
+    {
+        health = 0;
+        CheckIfDead();
     }
 }

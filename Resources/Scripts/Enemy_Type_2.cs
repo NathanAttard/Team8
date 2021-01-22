@@ -37,6 +37,8 @@ public class Enemy_Type_2 : Enemy
         aggroAngle = 70f;
         arrowSpawnPoint = this.transform.Find("ArrowSpawnPoint").gameObject;
 
+        arrowForce = 50f;
+
 
         patrolCoroutine = StartCoroutine(PatrolWaypoints(waypoints));
         waitCoroutine = StartCoroutine(WaitForPlayer());
@@ -89,6 +91,11 @@ public class Enemy_Type_2 : Enemy
 
         while (true)
         {
+            if (isAggroed)
+            {
+                Aggroed();
+            }
+
             //Get at which angle the player is from the enemy's current facing direction
             facingAngleToPlayer = Vector3.Angle(this.transform.forward, GameData.PlayerPosition - this.transform.position);
 
@@ -100,18 +107,23 @@ public class Enemy_Type_2 : Enemy
             {
                 if (collider.gameObject.tag == "playerObject" && facingAngleToPlayer < aggroAngle)
                 {
-                    animator.SetBool("isWalk", false);
-                    this.navAgent.isStopped = true;
-
-                    spotCoroutine = StartCoroutine(PlayerSpotted());
-                    StopCoroutine(patrolCoroutine);
-                    StopCoroutine(waitCoroutine);
+                    Aggroed();
                     break;
                 }
             }
 
             yield return new WaitForSeconds(0.2f);
         }
+    }
+
+    void Aggroed()
+    {
+        animator.SetBool("isWalk", false);
+        this.navAgent.isStopped = true;
+
+        spotCoroutine = StartCoroutine(PlayerSpotted());
+        StopCoroutine(patrolCoroutine);
+        StopCoroutine(waitCoroutine);
     }
 
     IEnumerator PlayerSpotted()

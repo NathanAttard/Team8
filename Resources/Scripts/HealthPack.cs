@@ -35,7 +35,7 @@ public class HealthPack : MonoBehaviour
 
         if(col.gameObject.tag == "playerObject")
         {
-            if (Input.GetKeyDown(KeyCode.C))
+            if (Input.GetKeyDown(KeyCode.E))
             {
                 myGameManager.ChangePlayerHealth(healthGives);
                 Destroy(this.gameObject);

@@ -239,7 +239,7 @@ public class HandgunScriptLPFP : MonoBehaviour {
 			randomMuzzleflashValue = Random.Range (minRandomValue, maxRandomValue);
 		}
 
-		//Timescale settings
+		/*Timescale settings
 		//Change timescale to normal when 1 key is pressed
 		if (Input.GetKeyDown (KeyCode.Alpha1)) 
 		{
@@ -269,7 +269,7 @@ public class HandgunScriptLPFP : MonoBehaviour {
 		{
 			Time.timeScale = 0.0f;
 			timescaleText.text = "0.0";
-		}
+		}*/
 
 		//Set current ammo text from ammo int
 		currentAmmoText.text = currentAmmo.ToString ();
@@ -278,6 +278,7 @@ public class HandgunScriptLPFP : MonoBehaviour {
 		//is currently playing
 		AnimationCheck ();
 
+        /*
 		//Play knife attack 1 animation when Q key is pressed
 		if (Input.GetKeyDown (KeyCode.Q) && !isInspecting) 
 		{
@@ -295,7 +296,7 @@ public class HandgunScriptLPFP : MonoBehaviour {
 			StartCoroutine (GrenadeSpawnDelay ());
 			//Play grenade throw animation
 			anim.Play("GrenadeThrow", 0, 0.0f);
-		}
+		}*/
 
 		//If out of ammo
 		if (currentAmmo == 0) 
@@ -326,7 +327,7 @@ public class HandgunScriptLPFP : MonoBehaviour {
 		}
 
 		//Shooting 
-		if (Input.GetMouseButtonDown (0) && !outOfAmmo && !isReloading && !isInspecting && !isRunning) 
+		if (Input.GetMouseButtonDown (0) && !outOfAmmo && !isReloading && !isInspecting && !isRunning && GameData.HandAmmo > 0) 
 		{
 			anim.Play ("Fire", 0, 0f);
 	
@@ -335,7 +336,10 @@ public class HandgunScriptLPFP : MonoBehaviour {
 			//Remove 1 bullet from ammo
 			currentAmmo -= 1;
 
-			shootAudioSource.clip = SoundClips.shootSound;
+            GameData.HandAmmo -= 1;
+            GameData.HandMag = currentAmmo;
+
+            shootAudioSource.clip = SoundClips.shootSound;
 			shootAudioSource.Play ();
 
 			//Light flash start
@@ -398,6 +402,7 @@ public class HandgunScriptLPFP : MonoBehaviour {
 				Spawnpoints.casingSpawnPoint.transform.rotation);
 		}
 
+        /*
 		//Inspect weapon when pressing T key
 		if (Input.GetKeyDown (KeyCode.T)) 
 		{
@@ -423,6 +428,7 @@ public class HandgunScriptLPFP : MonoBehaviour {
 
 			hasBeenHolstered = false;
 		}
+        */
 
 		//Holster anim toggle
 		if (holstered == true) 
@@ -435,7 +441,7 @@ public class HandgunScriptLPFP : MonoBehaviour {
 		}
 
 		//Reload 
-		if (Input.GetKeyDown (KeyCode.R) && !isReloading && !isInspecting) 
+		if (Input.GetKeyDown (KeyCode.R) && !isReloading && !isInspecting && GameData.HandAmmo > 0) 
 		{
 			//Reload
 			Reload ();
@@ -566,7 +572,8 @@ public class HandgunScriptLPFP : MonoBehaviour {
 		}
 		//Restore ammo when reloading
 		currentAmmo = ammo;
-		outOfAmmo = false;
+        GameData.HandMag = currentAmmo;
+        outOfAmmo = false;
 	}
 
 	//Enable bullet in mag renderer after set amount of time

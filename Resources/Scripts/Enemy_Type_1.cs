@@ -11,6 +11,8 @@ public class Enemy_Type_1 : Enemy
     float attackRange;
     bool isAttacking;
 
+    bool playerDetected;
+
     // Start is called before the first frame update
     protected override void Start()
     {
@@ -24,6 +26,8 @@ public class Enemy_Type_1 : Enemy
         attackRange = 1.8f;
         isAttacking = false;
 
+        playerDetected = false;
+
         waitCoroutine = StartCoroutine(WaitForPlayer());
     }
 
@@ -35,10 +39,15 @@ public class Enemy_Type_1 : Enemy
 
     IEnumerator WaitForPlayer()
     {
-        bool playerDetected = false;
 
         while (true)
         {
+
+            if (isAggroed)
+            {
+                Aggroed();
+            }
+
             float facingAngleToPlayer = Vector3.Angle(this.transform.forward, GameData.PlayerPosition - this.transform.position);
 
             //get colliders next to this enemy
@@ -49,9 +58,7 @@ public class Enemy_Type_1 : Enemy
             {
                 if (collider.gameObject.tag == "playerObject" && facingAngleToPlayer <= 70f)
                 {
-                    playerDetected = true;
-
-                    walkCoroutine = StartCoroutine(WalkToPlayer());
+                    Aggroed();
                     break;
                 }
             }
@@ -65,6 +72,12 @@ public class Enemy_Type_1 : Enemy
         }
 
         yield return null;
+    }
+
+    void Aggroed()
+    {
+        playerDetected = true;
+        walkCoroutine = StartCoroutine(WalkToPlayer());
     }
 
     IEnumerator WalkToPlayer()
