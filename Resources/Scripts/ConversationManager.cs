@@ -37,6 +37,7 @@ public class ConversationManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        gamegen = GameObject.FindObjectOfType<GameManager>();
         noCoinsObject = GameObject.Find("Canvas/noCoinsPanel");
 
         ResetIndexConversation();
