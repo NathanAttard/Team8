@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
     int startingPlayerHealth = 100;
 
     bool isTabPressed = true;
+    bool enteredRage;
 
     Image healthBar;
     Text coinsText;
@@ -21,9 +22,13 @@ public class GameManager : MonoBehaviour
     Text doorText;
     Text objectiveText1;
     Text objectiveText2;
-
+    Text rageTimer;
     Image assaultImg;
     Image handImg;
+    GameObject objectivePanel;
+    GameObject ragePanel;
+
+    int rageModeDur = 20;
 
     Coroutine rageCoroutine;
 
@@ -41,11 +46,17 @@ public class GameManager : MonoBehaviour
             ammoText = GameObject.Find("rifleText").GetComponent<Text>();
             assaultImg = GameObject.Find("rifleImg").GetComponent<Image>();
             handImg = GameObject.Find("pistolImg").GetComponent<Image>();
+            rageTimer = GameObject.Find("rageTimer").GetComponent<Text>();
+            ragePanel = GameObject.Find("ragePanel").gameObject;
+            objectivePanel = GameObject.Find("objectivePanel");
             UpdateUI();
 
             ToggleObjectives();
+            ToggleObjectives();
 
             DoorInteract(false);
+            ragePanel.SetActive(false);
+            enteredRage = false;
         }
         catch(NullReferenceException)
         {
@@ -64,8 +75,6 @@ public class GameManager : MonoBehaviour
         if(sceneName == "Level_01")
         {
             ResetGameDataValues();
-            Debug.Log("Coins: " + GameData.Coins);
-            Debug.Log("Health: " + GameData.PlayerHealth);
         }
     }
 
@@ -79,7 +88,6 @@ public class GameManager : MonoBehaviour
     public void AddCoins(int coinsToAdd)
     {
         GameData.Coins += coinsToAdd;
-        Debug.Log("Coins: " + GameData.Coins);
         UpdateUI();
     }
 
@@ -121,9 +129,14 @@ public class GameManager : MonoBehaviour
 
     public void ChangePlayerHealth(int amountToChange)
     {
-        Debug.Log("Health Before: " + GameData.PlayerHealth);
+        int prevHealth = GameData.PlayerHealth;
         GameData.PlayerHealth += amountToChange;
-        Debug.Log("Health After: " + GameData.PlayerHealth);
+
+        if(prevHealth <= (startingPlayerHealth * 0.3) && GameData.PlayerHealth > (startingPlayerHealth * 0.3))
+        {
+            enteredRage = false;
+        }
+
         UpdateUI();
         CheckRageMode();
     }
@@ -131,10 +144,19 @@ public class GameManager : MonoBehaviour
     //For Functionality 10 - Rage Mode
     public void CheckRageMode()
     {
-        if(GameData.PlayerHealth <= (startingPlayerHealth * 0.3))
+        if(GameData.PlayerHealth <= (startingPlayerHealth * 0.3) && !enteredRage)
         {
+            enteredRage = true;
             RageMode();
+            ragePanel.SetActive(true);
+
             GameData.PlayerObject.GetComponent<Player>().isRage = true;
+
+            if(rageCoroutine != null)
+            {
+                StopCoroutine(rageCoroutine);
+            }
+
             rageCoroutine = StartCoroutine(RageModeInPlay());
         }
     }
@@ -142,7 +164,11 @@ public class GameManager : MonoBehaviour
     //For Functionality 10 - Rage Mode
     IEnumerator RageModeInPlay()
     {
-        yield return new WaitForSeconds(15f);
+        for(int i = rageModeDur; i >= 0; i--)
+        {
+            rageTimer.text = i.ToString();
+            yield return new WaitForSeconds(1f);
+        }
         StoppedRageMode();
         GameData.PlayerObject.GetComponent<Player>().isRage = false;
     }
@@ -153,12 +179,12 @@ public class GameManager : MonoBehaviour
         GameData.AssaultBulletDMG = 5;
         GameData.HandBulletDMG = 4;
 
-        GameData.PlayerObject.GetComponent<FpsControllerLPFP>().walkingSpeed = 8f;
-        GameData.PlayerObject.GetComponent<FpsControllerLPFP>().runningSpeed = 15f;
+        GameData.PlayerObject.GetComponent<FpsControllerLPFP>().walkingSpeed = 10f;
+        GameData.PlayerObject.GetComponent<FpsControllerLPFP>().runningSpeed = 18f;
 
         try
         {
-            GameData.PlayerObject.GetComponentInChildren<AutomaticGunScriptLPFP>().fireRate = 18f;
+            GameData.PlayerObject.GetComponentInChildren<AutomaticGunScriptLPFP>().fireRate = 25f;
         }
         catch (NullReferenceException)
         {
@@ -169,6 +195,8 @@ public class GameManager : MonoBehaviour
     //For Functionality 10 - Rage Mode
     public void StoppedRageMode()
     {
+        ragePanel.SetActive(false);
+
         GameData.AssaultBulletDMG = 2;
         GameData.HandBulletDMG = 3;
 
@@ -238,12 +266,14 @@ public class GameManager : MonoBehaviour
             {
                 objectiveText2.enabled = false;
                 objectiveText1.enabled = true;
+                objectivePanel.SetActive(true);
                 isTabPressed = false;
             }
             else if (!isTabPressed)
             {
                 objectiveText2.enabled = false;
                 objectiveText1.enabled = false;
+                objectivePanel.SetActive(false);
                 isTabPressed = true;
             }
         }
@@ -253,16 +283,35 @@ public class GameManager : MonoBehaviour
             {
                 objectiveText1.enabled = false;
                 objectiveText2.enabled = true;
+                objectivePanel.SetActive(true);
                 isTabPressed = false;
             }
             else if (!isTabPressed)
             {
                 objectiveText1.enabled = false;
                 objectiveText2.enabled = false;
+                objectivePanel.SetActive(false);
                 isTabPressed = true;
             }
         }
         
         
+    }
+
+    //If too many enemies are aggroed, boss becomes laggy,
+    //so when boss is Aggroed, rest of the enemies are deAggroed
+    public void restartEnemyBehaviour(GameObject enemyStayAggroed)
+    {
+        GameObject[] EnemyList = GameObject.FindGameObjectsWithTag("enemyFullGameObject");
+
+        foreach (GameObject currentEnemy in EnemyList)
+        {
+            if(currentEnemy != enemyStayAggroed)
+            {
+                currentEnemy.GetComponent<Enemy>().KillCheatWithoutCoins();
+                Destroy(currentEnemy);
+            }
+            
+        }
     }
 }

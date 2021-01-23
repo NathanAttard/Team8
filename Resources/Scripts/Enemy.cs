@@ -45,14 +45,12 @@ public class Enemy : MonoBehaviour
                 {
                     health -= (GameData.HandBulletDMG * GameData.HeadShotMulti);
                     GameData.HandHeadshotsNum += 1;
-                    Debug.Log("Hand Headshots: " + GameData.HandHeadshotsNum);
                 }
                 
                 else if(col.gameObject.tag == "playerAssaultBullet")
                 {
                     health -= (GameData.AssaultBulletDMG * GameData.HeadShotMulti);
                     GameData.AssaultHeadshotsNum += 1;
-                    Debug.Log("Assault Headshots: " + GameData.AssaultHeadshotsNum);
                 }
                 
             }
@@ -122,6 +120,13 @@ public class Enemy : MonoBehaviour
     public void KillCheat()
     {
         health = 0;
+        CheckIfDead();
+    }
+
+    public void KillCheatWithoutCoins()
+    {
+        health = 0;
+        myGameManager.AddCoins(-coins);
         CheckIfDead();
     }
 }
