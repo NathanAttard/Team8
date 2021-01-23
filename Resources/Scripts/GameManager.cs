@@ -299,14 +299,14 @@ public class GameManager : MonoBehaviour
     }
 
     //If too many enemies are aggroed, boss becomes laggy,
-    //so when boss is Aggroed, rest of the enemies are deAggroed
-    public void restartEnemyBehaviour(GameObject enemyStayAggroed)
+    //so when boss is Aggroed, rest of the enemies are destroyed
+    public void DestroyEnemies(GameObject enemyStayAlive)
     {
         GameObject[] EnemyList = GameObject.FindGameObjectsWithTag("enemyFullGameObject");
 
         foreach (GameObject currentEnemy in EnemyList)
         {
-            if(currentEnemy != enemyStayAggroed)
+            if(currentEnemy != enemyStayAlive)
             {
                 currentEnemy.GetComponent<Enemy>().KillCheatWithoutCoins();
                 Destroy(currentEnemy);

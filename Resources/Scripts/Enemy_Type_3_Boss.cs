@@ -82,7 +82,7 @@ public class Enemy_Type_3_Boss : Enemy
 
     void Aggroed()
     {
-        myGameManager.restartEnemyBehaviour(this.gameObject);
+        myGameManager.DestroyEnemies(this.gameObject);
 
         playerDetected = true;
         behaviourCoroutine = StartCoroutine(BossBehaviour());
