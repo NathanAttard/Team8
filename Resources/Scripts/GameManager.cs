@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEditor;
 using System;
+using FPSControllerLPFP;
 
 public class GameManager : MonoBehaviour
 {
@@ -19,6 +20,8 @@ public class GameManager : MonoBehaviour
 
     Image assaultImg;
     Image handImg;
+
+    Coroutine rageCoroutine;
 
     // Start is called before the first frame update
     void Start()
@@ -117,12 +120,60 @@ public class GameManager : MonoBehaviour
         CheckRageMode();
     }
 
-    //Functionality 10
+    //For Functionality 10 - Rage Mode
     public void CheckRageMode()
     {
         if(GameData.PlayerHealth <= (startingPlayerHealth * 0.3))
         {
-            //Enable Rage Mode
+            RageMode();
+            GameData.PlayerObject.GetComponent<Player>().isRage = true;
+            rageCoroutine = StartCoroutine(RageModeInPlay());
+        }
+    }
+
+    //For Functionality 10 - Rage Mode
+    IEnumerator RageModeInPlay()
+    {
+        yield return new WaitForSeconds(15f);
+        StoppedRageMode();
+        GameData.PlayerObject.GetComponent<Player>().isRage = false;
+    }
+
+    //Functionality 10 - Rage Mode
+    public void RageMode()
+    {
+        GameData.AssaultBulletDMG = 5;
+        GameData.HandBulletDMG = 4;
+
+        GameData.PlayerObject.GetComponent<FpsControllerLPFP>().walkingSpeed = 8f;
+        GameData.PlayerObject.GetComponent<FpsControllerLPFP>().runningSpeed = 15f;
+
+        try
+        {
+            GameData.PlayerObject.GetComponentInChildren<AutomaticGunScriptLPFP>().fireRate = 18f;
+        }
+        catch (NullReferenceException)
+        {
+
+        }
+    }
+
+    //For Functionality 10 - Rage Mode
+    public void StoppedRageMode()
+    {
+        GameData.AssaultBulletDMG = 2;
+        GameData.HandBulletDMG = 3;
+
+        GameData.PlayerObject.GetComponent<FpsControllerLPFP>().walkingSpeed = 5f;
+        GameData.PlayerObject.GetComponent<FpsControllerLPFP>().runningSpeed = 9f;
+
+        try
+        {
+            GameData.PlayerObject.GetComponentInChildren<AutomaticGunScriptLPFP>().fireRate = 11.5f;
+        }
+        catch (NullReferenceException)
+        {
+
         }
     }
 

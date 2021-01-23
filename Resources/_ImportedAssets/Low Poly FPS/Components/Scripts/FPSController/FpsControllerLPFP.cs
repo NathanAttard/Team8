@@ -27,10 +27,10 @@ namespace FPSControllerLPFP
 
 		[Header("Movement Settings")]
         [Tooltip("How fast the player moves while walking and strafing."), SerializeField]
-        private float walkingSpeed = 5f;
+        public float walkingSpeed = 5f;
 
         [Tooltip("How fast the player moves while running."), SerializeField]
-        private float runningSpeed = 9f;
+        public float runningSpeed = 9f;
 
         [Tooltip("Approximately the amount of time it will take for the player to reach maximum running or walking speed."), SerializeField]
         private float movementSmoothness = 0.125f;
