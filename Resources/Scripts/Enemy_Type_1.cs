@@ -19,7 +19,7 @@ public class Enemy_Type_1 : Enemy
         health = 10;
         damage = 5;
         coins = 10;
-        aggroRange = 7f;
+        aggroRange = 14f;
         hitEffect = Resources.Load<GameObject>("Prefabs/Others/HitBones");
         base.Start();
 
@@ -56,7 +56,7 @@ public class Enemy_Type_1 : Enemy
             //read each collider
             foreach (Collider collider in hitColliders)
             {
-                if (collider.gameObject.tag == "playerObject" && facingAngleToPlayer <= 70f)
+                if (collider.gameObject.tag == "playerObject" && facingAngleToPlayer <= 180f)
                 {
                     Aggroed();
                     break;

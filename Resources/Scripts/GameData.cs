@@ -89,7 +89,7 @@ public abstract class GameData : MonoBehaviour
         get { return _headshotmulti; }
     }
 
-    private static int _playerhealth;
+    private static int _playerhealth = 100;
     public static int PlayerHealth
     {
         get { return _playerhealth; }

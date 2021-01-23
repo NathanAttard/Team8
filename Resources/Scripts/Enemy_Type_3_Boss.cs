@@ -18,6 +18,8 @@ public class Enemy_Type_3_Boss : Enemy
     float normAcc;
     float walkSpeed;
 
+    bool playerDetected;
+
     // Start is called before the first frame update
     protected override void Start()
     {
@@ -32,6 +34,8 @@ public class Enemy_Type_3_Boss : Enemy
         attackRange = 4f;
 
         isAttacking = false;
+
+        playerDetected = false;
         waitCoroutine = StartCoroutine(WaitForPlayer());
     }
 
@@ -43,10 +47,13 @@ public class Enemy_Type_3_Boss : Enemy
 
     IEnumerator WaitForPlayer()
     {
-        bool playerDetected = false;
-
         while (true)
         {
+            if (isAggroed)
+            {
+                Aggroed();
+            }
+
             //get colliders next to this enemy
             Collider[] hitColliders = Physics.OverlapSphere(this.transform.position, aggroRange);
 
@@ -55,9 +62,7 @@ public class Enemy_Type_3_Boss : Enemy
             {
                 if (collider.gameObject.tag == "playerObject")
                 {
-                    playerDetected = true;
-
-                    behaviourCoroutine = StartCoroutine(BossBehaviour());
+                    Aggroed();
                     break;
                 }
             }
@@ -71,6 +76,13 @@ public class Enemy_Type_3_Boss : Enemy
         }
 
         yield return null;
+    }
+
+    void Aggroed()
+    {
+        playerDetected = true;
+
+        behaviourCoroutine = StartCoroutine(BossBehaviour());
     }
 
     IEnumerator BossBehaviour()
