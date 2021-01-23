@@ -22,7 +22,7 @@ public class PlayerCollider : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        hitColliders = Physics.OverlapSphere(transform.position, 5f);
+        hitColliders = Physics.OverlapSphere(transform.position, 3f);
 
         hitWithTable = false;
 

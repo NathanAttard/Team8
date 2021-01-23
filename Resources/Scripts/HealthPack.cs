@@ -20,16 +20,6 @@ public class HealthPack : MonoBehaviour
         
     }
 
-    private void OnTriggerEnter(Collider col)
-    {
-
-        if (col.gameObject.tag == "playerObject")
-        {
-            print("Within Health Range");
-        }
-
-    }
-
     private void OnTriggerStay(Collider col)
     {
 
@@ -42,15 +32,5 @@ public class HealthPack : MonoBehaviour
             }
         }
         
-    }
-
-    private void OnTriggerExit(Collider col)
-    {
-
-        if (col.gameObject.tag == "playerObject")
-        {
-            print("Out of Health Range");
-        }
-
     }
 }

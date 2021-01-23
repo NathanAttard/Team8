@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
     Image healthBar;
     Text coinsText;
     Text ammoText;
+    Text doorText;
 
     Image assaultImg;
     Image handImg;
@@ -25,12 +26,15 @@ public class GameManager : MonoBehaviour
         //Using try and catch to give no errors when text is not found in scene
         try
         {
+            doorText = GameObject.Find("doorInteract").GetComponent<Text>();
             healthBar = GameObject.Find("healthSlider").GetComponent<Image>();
             coinsText = GameObject.Find("coinsText").GetComponent<Text>();
             ammoText = GameObject.Find("rifleText").GetComponent<Text>();
             assaultImg = GameObject.Find("rifleImg").GetComponent<Image>();
             handImg = GameObject.Find("pistolImg").GetComponent<Image>();
             UpdateUI();
+
+            DoorInteract(false);
         }
         catch(NullReferenceException)
         {
@@ -156,5 +160,10 @@ public class GameManager : MonoBehaviour
             handImg.enabled = true;
             ammoText.text = GameData.HandMag + " / " + GameData.HandAmmo;
         }
+    }
+
+    public void DoorInteract(bool isNextTo)
+    {
+        doorText.enabled = isNextTo;
     }
 }
