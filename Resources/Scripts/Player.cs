@@ -65,5 +65,10 @@ public class Player : MonoBehaviour
             GameData.IsAssault = false;
             myGameManager.UIAmmoUpdate();
         }
+
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            myGameManager.ToggleObjectives();
+        }
     }
 }
