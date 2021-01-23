@@ -12,10 +12,14 @@ public class GameManager : MonoBehaviour
     GameManager myGameManager;
     int startingPlayerHealth = 100;
 
+    bool isTabPressed = true;
+
     Image healthBar;
     Text coinsText;
     Text ammoText;
     Text doorText;
+    Text objectiveText1;
+    Text objectiveText2;
 
     Image assaultImg;
     Image handImg;
@@ -26,6 +30,8 @@ public class GameManager : MonoBehaviour
         //Using try and catch to give no errors when text is not found in scene
         try
         {
+            objectiveText1 = GameObject.Find("objectiveText1").GetComponent<Text>();
+            objectiveText2 = GameObject.Find("objectiveText2").GetComponent<Text>();
             doorText = GameObject.Find("doorInteract").GetComponent<Text>();
             healthBar = GameObject.Find("healthSlider").GetComponent<Image>();
             coinsText = GameObject.Find("coinsText").GetComponent<Text>();
@@ -33,6 +39,8 @@ public class GameManager : MonoBehaviour
             assaultImg = GameObject.Find("rifleImg").GetComponent<Image>();
             handImg = GameObject.Find("pistolImg").GetComponent<Image>();
             UpdateUI();
+
+            ToggleObjectives();
 
             DoorInteract(false);
         }
@@ -165,5 +173,45 @@ public class GameManager : MonoBehaviour
     public void DoorInteract(bool isNextTo)
     {
         doorText.enabled = isNextTo;
+    }
+
+    public void ToggleObjectives()
+    {
+        Scene currentScene = SceneManager.GetActiveScene();
+
+        string sceneName = currentScene.name;
+
+        if(sceneName == "Level_01")
+        {
+            if (isTabPressed)
+            {
+                objectiveText2.enabled = false;
+                objectiveText1.enabled = true;
+                isTabPressed = false;
+            }
+            else if (!isTabPressed)
+            {
+                objectiveText2.enabled = false;
+                objectiveText1.enabled = false;
+                isTabPressed = true;
+            }
+        }
+        else if(sceneName == "Level_02")
+        {
+            if (isTabPressed)
+            {
+                objectiveText1.enabled = false;
+                objectiveText2.enabled = true;
+                isTabPressed = false;
+            }
+            else if (!isTabPressed)
+            {
+                objectiveText1.enabled = false;
+                objectiveText2.enabled = false;
+                isTabPressed = true;
+            }
+        }
+        
+        
     }
 }
