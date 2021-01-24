@@ -12,11 +12,15 @@ public class Player : MonoBehaviour
 
     //For Functionality 10 - Rage Mode
     public bool isRage;
+    AudioSource[] playerAudioSources;
+    AudioSource rageAudio;
 
     // Start is called before the first frame update
     void Start()
     {
         myGameManager = FindObjectOfType<GameManager>();
+        playerAudioSources = GetComponents<AudioSource>();
+        rageAudio = playerAudioSources[1];
 
         GameData.PlayerObject = this.gameObject;
 
@@ -69,6 +73,18 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Tab))
         {
             myGameManager.ToggleObjectives();
+        }
+    }
+
+    public void handleRageSound(bool isPlay)
+    {
+        if (isPlay)
+        {
+            rageAudio.Play();
+        }
+        else
+        {
+            rageAudio.Stop();
         }
     }
 }
