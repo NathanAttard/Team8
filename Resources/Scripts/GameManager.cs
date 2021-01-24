@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Playables;
 using UnityEngine.SceneManagement;
 using UnityEditor;
 using System;
@@ -10,8 +11,6 @@ using FPSControllerLPFP;
 public class GameManager : MonoBehaviour
 {
     GameManager myGameManager;
-
-    AudioSource rageMode;
 
     int startingPlayerHealth = 100;
 
@@ -35,6 +34,7 @@ public class GameManager : MonoBehaviour
     Coroutine rageCoroutine;
 
     GameObject finishCollider;
+    GameObject cinemachine;
 
     // Start is called before the first frame update
     void Start()
@@ -53,7 +53,6 @@ public class GameManager : MonoBehaviour
             rageTimer = GameObject.Find("rageTimer").GetComponent<Text>();
             ragePanel = GameObject.Find("ragePanel").gameObject;
             objectivePanel = GameObject.Find("objectivePanel");
-            rageMode = GetComponent<AudioSource>();
             UpdateUI();
 
             ToggleObjectives();
@@ -70,6 +69,15 @@ public class GameManager : MonoBehaviour
         try
         {
             finishCollider = GameObject.Find("Finish_Collider");
+        }
+        catch (NullReferenceException)
+        {
+        }
+
+        try
+        {
+            cinemachine = GameObject.Find("TrainCinemachine");
+            cinemachine.SetActive(false);
         }
         catch (NullReferenceException)
         {
@@ -216,7 +224,7 @@ public class GameManager : MonoBehaviour
     //Functionality 10 - Rage Mode
     public void RageMode()
     {
-        rageMode.Play();
+        GameData.PlayerObject.GetComponent<Player>().handleRageSound(true);
 
         GameData.AssaultBulletDMG = 5;
         GameData.HandBulletDMG = 4;
@@ -237,7 +245,7 @@ public class GameManager : MonoBehaviour
     //For Functionality 10 - Rage Mode
     public void StoppedRageMode()
     {
-        rageMode.Stop();
+        GameData.PlayerObject.GetComponent<Player>().handleRageSound(false);
 
         ragePanel.SetActive(false);
 
