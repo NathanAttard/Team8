@@ -5,6 +5,8 @@ using UnityEngine.AI;
 
 public class Enemy : MonoBehaviour
 {
+    AudioSource bones;
+
     protected int health;
     protected int damage;
     protected int coins;
@@ -23,6 +25,7 @@ public class Enemy : MonoBehaviour
         myGameManager = FindObjectOfType<GameManager>();
         navAgent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
+        bones = GetComponent<AudioSource>();
     }
 
     protected virtual void Update()
@@ -33,8 +36,8 @@ public class Enemy : MonoBehaviour
     {
         if (col.gameObject.tag == "playerHandBullet" || col.gameObject.tag == "playerAssaultBullet")
         {
+            bones.Play();
             isAggroed = true;
-
             Instantiate(hitEffect, col.gameObject.transform.position, Quaternion.identity);
             //Get the name of the gameObject that got hit
             string colliderName = col.GetContact(0).thisCollider.name;

@@ -11,6 +11,9 @@ public class GameManager : MonoBehaviour
 {
 
     GameManager myGameManager;
+
+    AudioSource rageMode;
+
     int startingPlayerHealth = 100;
 
     bool isTabPressed = true;
@@ -49,6 +52,7 @@ public class GameManager : MonoBehaviour
             rageTimer = GameObject.Find("rageTimer").GetComponent<Text>();
             ragePanel = GameObject.Find("ragePanel").gameObject;
             objectivePanel = GameObject.Find("objectivePanel");
+            rageMode = GetComponent<AudioSource>();
             UpdateUI();
 
             ToggleObjectives();
@@ -176,6 +180,8 @@ public class GameManager : MonoBehaviour
     //Functionality 10 - Rage Mode
     public void RageMode()
     {
+        rageMode.Play();
+
         GameData.AssaultBulletDMG = 5;
         GameData.HandBulletDMG = 4;
 
@@ -195,6 +201,8 @@ public class GameManager : MonoBehaviour
     //For Functionality 10 - Rage Mode
     public void StoppedRageMode()
     {
+        rageMode.Stop();
+
         ragePanel.SetActive(false);
 
         GameData.AssaultBulletDMG = 2;
