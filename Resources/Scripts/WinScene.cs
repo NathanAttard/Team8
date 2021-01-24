@@ -2,24 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Train : MonoBehaviour
+public class WinScene : MonoBehaviour
 {
-    GameManager manager;
-
     // Start is called before the first frame update
     void Start()
     {
-        manager = FindObjectOfType<GameManager>();
+        Cursor.lockState = CursorLockMode.None;
     }
 
     // Update is called once per frame
     void Update()
     {
         
-    }
-
-    public void OnAnimationFinished()
-    {
-        manager.changeScene("Win");
     }
 }
