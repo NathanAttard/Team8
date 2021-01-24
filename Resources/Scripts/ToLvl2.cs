@@ -22,6 +22,11 @@ public class ToLvl2 : MonoBehaviour
     {
         if (other.gameObject.tag == "playerObject")
         {
+            GameData.Alvl1Health = GameData.PlayerHealth;
+            GameData.Alvl1Coins = GameData.Coins;
+            GameData.Alvl1AssaultAmmo = GameData.AssaultAmmo;
+            GameData.Alvl1HandAmmo = GameData.HandAmmo;
+
             myGameManager.changeScene("Level_02");
         }
     }

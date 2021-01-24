@@ -111,4 +111,32 @@ public abstract class GameData : MonoBehaviour
         get { return _playerobject; }
         set { _playerobject = value; }
     }
+
+    private static int _alvl1health;
+    public static int Alvl1Health
+    {
+        get { return _alvl1health; }
+        set { _alvl1health = value; }
+    }
+
+    private static int _alvl1assaultammo;
+    public static int Alvl1AssaultAmmo
+    {
+        get { return _alvl1assaultammo; }
+        set { _alvl1assaultammo = value; }
+    }
+
+    private static int _alvl1handammo;
+    public static int Alvl1HandAmmo
+    {
+        get { return _alvl1handammo; }
+        set { _alvl1handammo = value; }
+    }
+
+    private static int _alvl1coins;
+    public static int Alvl1Coins
+    {
+        get { return _alvl1coins; }
+        set { _alvl1coins = value; }
+    }
 }

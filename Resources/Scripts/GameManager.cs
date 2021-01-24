@@ -9,7 +9,6 @@ using FPSControllerLPFP;
 
 public class GameManager : MonoBehaviour
 {
-
     GameManager myGameManager;
     int startingPlayerHealth = 100;
 
@@ -31,6 +30,8 @@ public class GameManager : MonoBehaviour
     int rageModeDur = 20;
 
     Coroutine rageCoroutine;
+
+    GameObject finishCollider;
 
     // Start is called before the first frame update
     void Start()
@@ -61,6 +62,15 @@ public class GameManager : MonoBehaviour
         catch(NullReferenceException)
         {
         }
+
+        try
+        {
+            finishCollider = GameObject.Find("Finish_Collider");
+        }
+        catch (NullReferenceException)
+        {
+        }
+
     }
 
     // Update is called once per frame
@@ -70,12 +80,20 @@ public class GameManager : MonoBehaviour
 
     public void changeScene(string sceneName)
     {
-        SceneManager.LoadScene(sceneName);
-
         if(sceneName == "Level_01")
         {
             ResetGameDataValues();
         }
+
+        if(sceneName == "Level_02")
+        {
+            GameData.PlayerHealth = GameData.Alvl1Health;
+            GameData.Coins = GameData.Alvl1Coins;
+            GameData.AssaultAmmo = GameData.Alvl1AssaultAmmo;
+            GameData.HandAmmo = GameData.Alvl1HandAmmo;
+        }
+
+        SceneManager.LoadScene(sceneName);
     }
 
     public void QuitGame()
@@ -125,18 +143,36 @@ public class GameManager : MonoBehaviour
     {
         GameData.Coins = 100;
         GameData.PlayerHealth = startingPlayerHealth;
+        GameData.AssaultAmmo = 280;
+        GameData.HandAmmo = 80;
     }
 
     public void ChangePlayerHealth(int amountToChange)
     {
         int prevHealth = GameData.PlayerHealth;
-        GameData.PlayerHealth += amountToChange;
+
+        GameData.PlayerHealth = Mathf.Clamp(GameData.PlayerHealth += amountToChange, 0 , startingPlayerHealth);
 
         if(prevHealth <= (startingPlayerHealth * 0.3) && GameData.PlayerHealth > (startingPlayerHealth * 0.3))
         {
             enteredRage = false;
         }
 
+        if(GameData.PlayerHealth <= 0)
+        {
+            Scene currentScene = SceneManager.GetActiveScene();
+            string sceneName = currentScene.name;
+
+            if (sceneName == "Level_01")
+            {
+                changeScene("Level_01");
+            }
+            else if(sceneName == "Level_02")
+            {
+                changeScene("Level_02");
+            }
+        }
+        
         UpdateUI();
         CheckRageMode();
     }
@@ -313,5 +349,10 @@ public class GameManager : MonoBehaviour
             }
             
         }
+    }
+
+    public void GameFinished()
+    {
+        Destroy(finishCollider);
     }
 }

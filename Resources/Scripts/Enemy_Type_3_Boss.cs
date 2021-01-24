@@ -311,5 +311,7 @@ public class Enemy_Type_3_Boss : Enemy
         animator.SetBool("isWalk", false);
 
         base.Died();
+
+        myGameManager.GameFinished();
     }
 }
