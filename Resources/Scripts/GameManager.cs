@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Playables;
 using UnityEngine.SceneManagement;
 using UnityEditor;
 using System;
@@ -32,6 +33,7 @@ public class GameManager : MonoBehaviour
     Coroutine rageCoroutine;
 
     GameObject finishCollider;
+    GameObject cinemachine;
 
     // Start is called before the first frame update
     void Start()
@@ -66,6 +68,15 @@ public class GameManager : MonoBehaviour
         try
         {
             finishCollider = GameObject.Find("Finish_Collider");
+        }
+        catch (NullReferenceException)
+        {
+        }
+
+        try
+        {
+            cinemachine = GameObject.Find("TrainCinemachine");
+            cinemachine.SetActive(false);
         }
         catch (NullReferenceException)
         {
