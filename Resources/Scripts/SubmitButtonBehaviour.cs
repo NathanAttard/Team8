@@ -31,12 +31,18 @@ public class SubmitButtonBehaviour : MonoBehaviour
 
                 GetComponent<WebServiceConnect>().AddUser(objPerson);
 
-                gameManager.changeScene(sceneName);
+                StartCoroutine(waitTillSaveData());
             });
     }
 
     // Update is called once per frame
     void Update()
     {
+    }
+
+    IEnumerator waitTillSaveData()
+    {
+        yield return new WaitForSeconds(1f);
+        gameManager.changeScene(sceneName);
     }
 }
