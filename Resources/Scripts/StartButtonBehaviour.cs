@@ -22,18 +22,8 @@ public class StartButtonBehaviour : MonoBehaviour
             {
                 InputUsername = GameObject.Find("UsernameIF").GetComponent<InputField>();
                 string username = InputUsername.text;
-                int assaultHeadshot = GameData.AssaultHeadshotsNum;
-                int handHeadshots = GameData.HandHeadshotsNum;
-                print(username);
-                print(GameData.AssaultHeadshotsNum);
-                print(GameData.HandHeadshotsNum);
-
-                Person objPerson = new Person();
-                objPerson.Name = username;
-                objPerson.AssaultHeadshots = assaultHeadshot;
-                objPerson.HandHeadshots = handHeadshots;
-
-                GetComponent<WebServiceConnect>().AddUser(objPerson);
+                GameData.Username = username;
+                print(GameData.Username);
 
                 gameManager.changeScene(sceneName);
             });
