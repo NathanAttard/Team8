@@ -51,6 +51,7 @@ public class Enemy_Type_3_Boss : Enemy
         {
             if (isAggroed)
             {
+                yield return new WaitForSeconds(0.5f);
                 Aggroed();
             }
 
@@ -62,6 +63,7 @@ public class Enemy_Type_3_Boss : Enemy
             {
                 if (collider.gameObject.tag == "playerObject")
                 {
+                    yield return new WaitForSeconds(0.5f);
                     Aggroed();
                     break;
                 }
@@ -80,8 +82,9 @@ public class Enemy_Type_3_Boss : Enemy
 
     void Aggroed()
     {
-        playerDetected = true;
+        myGameManager.DestroyEnemies(this.gameObject);
 
+        playerDetected = true;
         behaviourCoroutine = StartCoroutine(BossBehaviour());
     }
 

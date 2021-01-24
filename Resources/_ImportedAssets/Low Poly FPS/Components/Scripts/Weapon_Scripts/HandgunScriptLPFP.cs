@@ -172,7 +172,6 @@ public class HandgunScriptLPFP : MonoBehaviour {
 
         myGameManager = FindObjectOfType<GameManager>();
         GameData.HandMag = currentAmmo;
-        Debug.Log(GameData.HandMag);
 
         //Save the weapon name
         storedWeaponName = weaponName;

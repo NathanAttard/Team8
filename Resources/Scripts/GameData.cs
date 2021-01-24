@@ -75,12 +75,14 @@ public abstract class GameData : MonoBehaviour
     public static int AssaultBulletDMG
     {
         get { return _assaultbulletdmg; }
+        set { _assaultbulletdmg = value; }
     }
 
     private static int _handbulletdmg = 2;
     public static int HandBulletDMG
     {
         get { return _handbulletdmg; }
+        set { _handbulletdmg = value; }
     }
 
     private static int _headshotmulti = 3;

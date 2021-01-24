@@ -10,6 +10,9 @@ public class Player : MonoBehaviour
 
     GameManager myGameManager;
 
+    //For Functionality 10 - Rage Mode
+    public bool isRage;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -18,6 +21,8 @@ public class Player : MonoBehaviour
         GameData.PlayerObject = this.gameObject;
 
         GameData.IsAssault = true;
+
+        isRage = false;
 
         assaultRifle = this.gameObject.transform.GetChild(0).gameObject;
         handGun = this.gameObject.transform.GetChild(1).gameObject;
@@ -36,6 +41,16 @@ public class Player : MonoBehaviour
             this.GetComponent<FpsControllerLPFP>().arms = assaultRifle.transform;
             assaultRifle.SetActive(true);
             handGun.SetActive(false);
+
+            //For Functionality 10 - Rage Mode
+            if (isRage)
+            {
+                GameData.PlayerObject.GetComponentInChildren<AutomaticGunScriptLPFP>().fireRate = 18f;
+            }
+            else
+            {
+                GameData.PlayerObject.GetComponentInChildren<AutomaticGunScriptLPFP>().fireRate = 11.5f;
+            }
 
             GameData.IsAssault = true;
             myGameManager.UIAmmoUpdate();
