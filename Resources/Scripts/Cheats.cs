@@ -22,7 +22,7 @@ public class Cheats : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.P))
         {
-            myGameManager.ChangePlayerHealth(-70);
+            myGameManager.ChangePlayerHealth(-100);
         }
 
         if (Input.GetKeyDown(KeyCode.O))

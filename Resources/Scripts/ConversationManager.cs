@@ -110,7 +110,6 @@ public class ConversationManager : MonoBehaviour
                     Option1.color = SelectedOptionColor;
                     if (Input.GetKeyDown(KeyCode.Return))
                     {
-                        print("1");
                         if(GameData.Coins >= 50)
                         {
                             GameData.Coins -= 50;
@@ -135,7 +134,6 @@ public class ConversationManager : MonoBehaviour
                     Option2.color = SelectedOptionColor;
                     if (Input.GetKeyDown(KeyCode.Return))
                     {
-                        print("2");
                         if (GameData.Coins >= 50)
                         {
                             GameData.Coins -= 50;
@@ -160,7 +158,6 @@ public class ConversationManager : MonoBehaviour
                     Option3.color = SelectedOptionColor;
                     if (Input.GetKeyDown(KeyCode.Return))
                     {
-                        print("3");
                         if (GameData.Coins >= 100)
                         {
                             GameData.Coins -= 100;
@@ -184,7 +181,6 @@ public class ConversationManager : MonoBehaviour
                     Option4.color = SelectedOptionColor;
                     if (Input.GetKeyDown(KeyCode.Return))
                     {
-                        print("4");
                         if (GameData.Coins >= 100)
                         {
                             GameData.Coins -= 100;

@@ -40,7 +40,6 @@ public class PlayerCollider : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.E))
             {
-                Debug.Log("Table was hit");
                 enableCanvas();
             }
         }
