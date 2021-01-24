@@ -11,6 +11,7 @@ using FPSControllerLPFP;
 public class GameManager : MonoBehaviour
 {
     GameManager myGameManager;
+
     int startingPlayerHealth = 100;
 
     bool isTabPressed = true;
@@ -223,6 +224,8 @@ public class GameManager : MonoBehaviour
     //Functionality 10 - Rage Mode
     public void RageMode()
     {
+        GameData.PlayerObject.GetComponent<Player>().handleRageSound(true);
+
         GameData.AssaultBulletDMG = 5;
         GameData.HandBulletDMG = 4;
 
@@ -242,6 +245,8 @@ public class GameManager : MonoBehaviour
     //For Functionality 10 - Rage Mode
     public void StoppedRageMode()
     {
+        GameData.PlayerObject.GetComponent<Player>().handleRageSound(false);
+
         ragePanel.SetActive(false);
 
         GameData.AssaultBulletDMG = 2;

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class HealthPack : MonoBehaviour
 {
+    public AudioClip swallow;
     GameManager myGameManager;
     int healthGives;
 
@@ -27,10 +28,14 @@ public class HealthPack : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.E))
             {
+                AudioSource.PlayClipAtPoint(swallow, transform.position);
+
                 myGameManager.ChangePlayerHealth(healthGives);
+
                 Destroy(this.gameObject);
             }
         }
+
         
     }
 }
